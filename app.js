@@ -26,8 +26,21 @@ app.get('/:id', (request, response) => {
         response.sendStatus(404)
         return
       }
-      const originalUrl = result.rows[0].link
-      response.redirect(originalUrl)
+      const resolvedLink = result.rows[0]
+      const originalUrl = resolvedLink.link
+
+      db.query(`
+        INSERT INTO redirects
+        (link_id, visited_at)
+        VALUES ($1, NOW())
+      `, [resolvedLink.id])
+        .then(() => {
+          response.redirect(originalUrl)
+        })
+        .catch(error => {
+          console.error(error)
+          response.sendStatus(500)
+        })
     })
     .catch(error => {
       console.error(error)
