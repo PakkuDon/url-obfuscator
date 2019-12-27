@@ -1,3 +1,3 @@
-# URL Lengthener
+# URL Obfuscator
 
 Like Bitly, but less useful.
