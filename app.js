@@ -37,7 +37,7 @@ app.post('/api/links', (request, response) => {
     .then(result => {
       response.status(201).json({
         url: urlToTransform,
-        hash: urlHash,
+        new_url: new URL(urlHash, `https://${request.hostname}`)
       })
     })
     .catch(error => {
