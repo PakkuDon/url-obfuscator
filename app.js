@@ -48,6 +48,39 @@ app.get('/:id', (request, response) => {
     })
 })
 
+app.get('/:id/info', (request, response) => {
+  const hash = request.params.id
+
+  db.query('SELECT * FROM links WHERE hash = $1', [hash])
+  .then(linkQueryResult => {
+    if (linkQueryResult.rows.length === 0) {
+      response.sendStatus(404)
+      return
+    }
+    const resolvedLink = linkQueryResult.rows[0]
+    const originalUrl = resolvedLink.link
+
+    db.query(`SELECT * FROM redirects WHERE link_id = $1`, [resolvedLink.id])
+      .then((redirectQueryResult) => {
+        response.status(201).json({
+          urlInfo: {
+            original_url: originalUrl,
+            obfuscated_url: new URL(resolvedLink.hash, `${request.protocol}://${request.hostname}`)
+          },
+          visits: redirectQueryResult.rows.map(redirect => redirect.visited_at),
+        })
+      })
+      .catch(error => {
+        console.error(error)
+        response.sendStatus(500)
+      })
+  })
+  .catch(error => {
+    console.error(error)
+    response.sendStatus(500)
+  })
+})
+
 app.post('/api/links', (request, response) => {
   const urlToTransform = request.body.url
 
