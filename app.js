@@ -67,7 +67,10 @@ app.get('/:id/info', (request, response) => {
             original_url: originalUrl,
             obfuscated_url: new URL(resolvedLink.hash, `${request.protocol}://${request.hostname}`)
           },
-          visits: redirectQueryResult.rows.map(redirect => redirect.visited_at),
+          redirects: {
+            count: redirectQueryResult.rows.length,
+            past_visits: redirectQueryResult.rows.map(redirect => redirect.visited_at)
+          },
         })
       })
       .catch(error => {
