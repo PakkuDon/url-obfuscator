@@ -1,8 +1,10 @@
 require('dotenv').config()
 
 const crypto = require('crypto')
+const fs = require('fs')
 const express = require('express')
 const morgan = require('morgan')
+const marked = require('marked')
 const db = require('./db')
 
 const app = express()
@@ -14,7 +16,15 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 app.get('/', (request, response) => {
-  response.send('Hello World')
+  fs.readFile('./README.md', 'utf8', (error, data) => {
+    if (error) {
+      response.sendStatus(500)
+      return
+    }
+
+    console.log(data)
+    response.send(marked(data))
+  })
 })
 
 app.get('/:id', (request, response) => {
