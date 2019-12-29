@@ -42,3 +42,21 @@ GET /:hash/info
 ```
 - Returns meta information about original URL with matching hash
 - Returns 404 if hash cannot be resolved to another URL
+
+## Tech Stack
+- Node.js
+- ExpressJS
+- PostgreSQL
+
+## Local development
+- Clone this repository
+
+### Set up database
+- Copy `.env.development` to `.env`
+- Configure PostgreSQL credentials in `.env`
+- Create PostgreSQL database. Database name should be the same as the value of `PGDATABASE` in `.env`
+- Run commands from `db_create.sql` against database created in above step
+
+### Set up server
+- Run `yarn` to install dependencies
+- Run `yarn start` to start web server
