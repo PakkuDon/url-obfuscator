@@ -22,7 +22,6 @@ app.get('/', (request, response) => {
       return
     }
 
-    console.log(data)
     response.send(marked(data))
   })
 })
