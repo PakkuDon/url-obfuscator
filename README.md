@@ -60,3 +60,15 @@ GET /:hash/info
 ### Set up server
 - Run `yarn` to install dependencies
 - Run `yarn start` to start web server
+
+## Local development with Docker
+- Build Docker image
+```sh
+docker build -t url-obfuscator .
+```
+- Run image
+```sh
+docker run -p <port number>:3000 -d url-obfuscator
+# Eg
+docker run -p 5000:3000 -d url-obfuscator
+```
