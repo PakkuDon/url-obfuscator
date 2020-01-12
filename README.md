@@ -60,7 +60,7 @@ GET /:hash/info
 
 ### Set up server
 - Run `yarn` to install dependencies
-- Run `yarn start` to start web server
+- Run `yarn start` to start web server. Or run `yarn dev` to start and reload web server on edit.
 
 ## Local development with Docker
 - Build Docker image
