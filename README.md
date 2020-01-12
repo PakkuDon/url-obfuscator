@@ -1,6 +1,6 @@
 # URL Obfuscator
 
-Like Bitly, but less useful. Generates a redirect to the provided link.
+REST API that generates redirects to a provided link. Also tracks number of times a redirect has been used.
 
 Initially inspired by a terrible startup idea but later realised this was going to be quite similar to [another past side project](https://github.com/PakkuDon/LinkIt), so I stopped.
 
