@@ -1,0 +1,3 @@
+describe('URL Obfuscator', () => {
+  // TODO
+})

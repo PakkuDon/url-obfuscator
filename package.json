@@ -17,6 +17,7 @@
     "pg": "^7.16.0"
   },
   "devDependencies": {
+    "cypress": "^3.8.2",
     "nodemon": "^2.0.2"
   }
 }
