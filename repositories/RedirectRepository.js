@@ -12,9 +12,9 @@ class RedirectRepository {
 
   create(redirect) {
     return db.query(`
-    INSERT INTO redirects
-    (link_id, visited_at)
-    VALUES ($1, NOW())
+      INSERT INTO redirects
+      (link_id, visited_at)
+      VALUES ($1, NOW())
     `, [redirect.link_id])
   }
 }

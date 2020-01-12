@@ -61,36 +61,36 @@ app.get('/:id/info', (request, response) => {
   const hash = request.params.id
 
   linkRepository.findByHash(hash)
-  .then(linkQueryResult => {
-    if (linkQueryResult.rows.length === 0) {
-      response.sendStatus(404)
-      return
-    }
-    const resolvedLink = linkQueryResult.rows[0]
-    const originalUrl = resolvedLink.link
+    .then(linkQueryResult => {
+      if (linkQueryResult.rows.length === 0) {
+        response.sendStatus(404)
+        return
+      }
+      const resolvedLink = linkQueryResult.rows[0]
+      const originalUrl = resolvedLink.link
 
-    redirectRepository.findByLinkId(resolvedLink.id)
-      .then((redirectQueryResult) => {
-        response.status(201).json({
-          urlInfo: {
-            original_url: originalUrl,
-            obfuscated_url: new URL(resolvedLink.hash, `${request.protocol}://${request.hostname}`)
-          },
-          redirects: {
-            count: redirectQueryResult.rows.length,
-            last_visited_at: redirectQueryResult.rows[0] ? redirectQueryResult.rows[0].visited_at : null,
-          },
+      redirectRepository.findByLinkId(resolvedLink.id)
+        .then((redirectQueryResult) => {
+          response.status(201).json({
+            urlInfo: {
+              original_url: originalUrl,
+              obfuscated_url: new URL(resolvedLink.hash, `${request.protocol}://${request.hostname}`)
+            },
+            redirects: {
+              count: redirectQueryResult.rows.length,
+              last_visited_at: redirectQueryResult.rows[0] ? redirectQueryResult.rows[0].visited_at : null,
+            },
+          })
         })
-      })
-      .catch(error => {
-        console.error(error)
-        response.sendStatus(500)
-      })
-  })
-  .catch(error => {
-    console.error(error)
-    response.sendStatus(500)
-  })
+        .catch(error => {
+          console.error(error)
+          response.sendStatus(500)
+        })
+    })
+    .catch(error => {
+      console.error(error)
+      response.sendStatus(500)
+    })
 })
 
 app.post('/api/links', (request, response) => {
