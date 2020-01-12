@@ -6,8 +6,10 @@ const express = require('express')
 const morgan = require('morgan')
 const marked = require('marked')
 const db = require('./db')
+const LinkRepository = require('./repositories/LinkRepository')
 
 const app = express()
+const linkRepository = new LinkRepository()
 app.set('view engine', 'ejs')
 
 const PORT = process.env.PORT || 3000
@@ -30,7 +32,7 @@ app.get('/', (request, response) => {
 app.get('/:id', (request, response) => {
   const hash = request.params.id
 
-  db.query('SELECT * FROM links WHERE hash = $1', [hash])
+  linkRepository.findByHash(hash)
     .then(result => {
       if (result.rows.length === 0) {
         response.sendStatus(404)
@@ -61,7 +63,7 @@ app.get('/:id', (request, response) => {
 app.get('/:id/info', (request, response) => {
   const hash = request.params.id
 
-  db.query('SELECT * FROM links WHERE hash = $1', [hash])
+  linkRepository.findByHash(hash)
   .then(linkQueryResult => {
     if (linkQueryResult.rows.length === 0) {
       response.sendStatus(404)
@@ -107,11 +109,7 @@ app.post('/api/links', (request, response) => {
     .update(urlToTransform + nonce)
     .digest('hex')
 
-  db.query(`
-    INSERT INTO links
-    (hash, link, created_at)
-    VALUES ($1, $2, NOW())
-  `, [urlHash, urlToTransform])
+  linkRepository.create({ hash: urlHash, original_url: urlToTransform })
     .then(result => {
       const newUrl = new URL(urlHash, `${request.protocol}://${request.hostname}`)
       response.status(201).json({
