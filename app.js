@@ -5,11 +5,12 @@ const fs = require('fs')
 const express = require('express')
 const morgan = require('morgan')
 const marked = require('marked')
-const db = require('./db')
 const LinkRepository = require('./repositories/LinkRepository')
+const RedirectRepository = require('./repositories/RedirectRepository')
 
 const app = express()
 const linkRepository = new LinkRepository()
+const redirectRepository = new RedirectRepository()
 app.set('view engine', 'ejs')
 
 const PORT = process.env.PORT || 3000
@@ -41,11 +42,7 @@ app.get('/:id', (request, response) => {
       const resolvedLink = result.rows[0]
       const originalUrl = resolvedLink.link
 
-      db.query(`
-        INSERT INTO redirects
-        (link_id, visited_at)
-        VALUES ($1, NOW())
-      `, [resolvedLink.id])
+      redirectRepository.create({ link_id: resolvedLink.id })
         .then(() => {
           response.redirect(originalUrl)
         })
@@ -72,7 +69,7 @@ app.get('/:id/info', (request, response) => {
     const resolvedLink = linkQueryResult.rows[0]
     const originalUrl = resolvedLink.link
 
-    db.query(`SELECT * FROM redirects WHERE link_id = $1 ORDER BY visited_at DESC`, [resolvedLink.id])
+    redirectRepository.findByLinkId(resolvedLink.id)
       .then((redirectQueryResult) => {
         response.status(201).json({
           urlInfo: {
