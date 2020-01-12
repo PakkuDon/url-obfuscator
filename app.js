@@ -23,7 +23,7 @@ app.get('/', (request, response) => {
       return
     }
 
-    response.send(marked(data))
+    response.render('index', { readme: marked(data) })
   })
 })
 
