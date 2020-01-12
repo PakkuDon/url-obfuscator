@@ -96,6 +96,7 @@ app.get('/:id/info', (request, response) => {
 
 app.post('/api/links', (request, response) => {
   const urlToTransform = request.body.url
+  const nonce = Math.random()
 
   if (!urlToTransform) {
     response.sendStatus(400)
@@ -103,7 +104,7 @@ app.post('/api/links', (request, response) => {
   }
 
   const urlHash = crypto.createHash('sha512')
-    .update(urlToTransform)
+    .update(urlToTransform + nonce)
     .digest('hex')
 
   db.query(`
