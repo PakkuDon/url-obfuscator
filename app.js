@@ -72,7 +72,7 @@ app.get('/:id/info', (request, response) => {
     const resolvedLink = linkQueryResult.rows[0]
     const originalUrl = resolvedLink.link
 
-    db.query(`SELECT * FROM redirects WHERE link_id = $1`, [resolvedLink.id])
+    db.query(`SELECT * FROM redirects WHERE link_id = $1 ORDER BY visited_at DESC`, [resolvedLink.id])
       .then((redirectQueryResult) => {
         response.status(201).json({
           urlInfo: {
@@ -81,7 +81,7 @@ app.get('/:id/info', (request, response) => {
           },
           redirects: {
             count: redirectQueryResult.rows.length,
-            past_visits: redirectQueryResult.rows.map(redirect => redirect.visited_at)
+            last_visited_at: redirectQueryResult.rows[0] ? redirectQueryResult.rows[0].visited_at : null,
           },
         })
       })
