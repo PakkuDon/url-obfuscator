@@ -74,7 +74,7 @@ app.get('/:id/info', (request, response) => {
           response.status(201).json({
             urlInfo: {
               original_url: originalUrl,
-              obfuscated_url: new URL(resolvedLink.hash, `${request.protocol}://${request.hostname}`)
+              obfuscated_url: new URL(resolvedLink.hash, `${request.protocol}://${request.hostname}:${PORT}`)
             },
             redirects: {
               count: redirectQueryResult.rows.length,
@@ -108,7 +108,7 @@ app.post('/api/links', (request, response) => {
 
   linkRepository.create({ hash: urlHash, original_url: urlToTransform })
     .then(result => {
-      const newUrl = new URL(urlHash, `${request.protocol}://${request.hostname}`)
+      const newUrl = new URL(urlHash, `${request.protocol}://${request.hostname}:${PORT}`)
       response.status(201).json({
         url: urlToTransform,
         new_url: newUrl,
