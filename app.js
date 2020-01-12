@@ -113,9 +113,11 @@ app.post('/api/links', (request, response) => {
     VALUES ($1, $2, NOW())
   `, [urlHash, urlToTransform])
     .then(result => {
+      const newUrl = new URL(urlHash, `${request.protocol}://${request.hostname}`)
       response.status(201).json({
         url: urlToTransform,
-        new_url: new URL(urlHash, `${request.protocol}://${request.hostname}`)
+        new_url: newUrl,
+        metadata_url: `${newUrl}/info`,
       })
     })
     .catch(error => {

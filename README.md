@@ -27,7 +27,8 @@ curl http://localhost:3000/api/links \
 ```json
 {
   "url": "https://example.com",
-  "new_url": "http://localhost/a0e91d3a61a1208e445ad6f3b19c2e3ae36e4a36f3d4edc78828b52c1d9ddabec94ac291e4ea7f8f3609f1972451df7284ee90edf8875b42e42083eb0f352c97"
+  "new_url": "http://localhost/a0e91d3a61a1208e445ad6f3b19c2e3ae36e4a36f3d4edc78828b52c1d9ddabec94ac291e4ea7f8f3609f1972451df7284ee90edf8875b42e42083eb0f352c97",
+  "metadata_url": "http://localhost/a0e91d3a61a1208e445ad6f3b19c2e3ae36e4a36f3d4edc78828b52c1d9ddabec94ac291e4ea7f8f3609f1972451df7284ee90edf8875b42e42083eb0f352c97"
 }
 ```
 
