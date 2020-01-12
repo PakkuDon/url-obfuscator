@@ -8,6 +8,7 @@ const marked = require('marked')
 const db = require('./db')
 
 const app = express()
+app.set('view engine', 'ejs')
 
 const PORT = process.env.PORT || 3000
 
