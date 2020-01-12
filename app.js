@@ -11,13 +11,13 @@ const RedirectRepository = require('./repositories/RedirectRepository')
 const app = express()
 const linkRepository = new LinkRepository()
 const redirectRepository = new RedirectRepository()
-app.set('view engine', 'ejs')
 
 const PORT = process.env.PORT || 3000
 
 app.use(morgan('combined'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.set('view engine', 'ejs')
 
 app.get('/', (request, response) => {
   fs.readFile('./README.md', 'utf8', (error, data) => {
