@@ -43,6 +43,19 @@ GET /:hash/info
 ```
 - Returns meta information about original URL with matching hash
 - Returns 404 if hash cannot be resolved to another URL
+- Example output
+```json
+{
+  "urlInfo": {
+    "original_url": "https://example.com",
+    "obfuscated_url": "http://localhost/a0e91d3a61a1208e445ad6f3b19c2e3ae36e4a36f3d4edc78828b52c1d9ddabec94ac291e4ea7f8f3609f1972451df7284ee90edf8875b42e42083eb0f352c97"
+  },
+  "redirects": {
+    "count": 0,
+    "last_visited_at": null
+  }
+}
+```
 
 ## Tech Stack
 - Node.js
