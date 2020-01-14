@@ -29,5 +29,20 @@ describe('URL Obfuscator', () => {
             })
         })
     })
+
+    context('when given the same link', () => {
+      it('generates a different URL for each request', () => {
+        cy.request('POST', '/api/links', { url: 'https://example.com' })
+          .its('body')
+          .its('new_url')
+          .then(firstResult => {
+            cy.request('POST', '/api/links', { url: 'https://example.com' })
+              .its('body')
+              .then(response => {
+                expect(response.new_url).not.to.eq(firstResult)
+              })
+          })
+      })
+    })
   })
 })
