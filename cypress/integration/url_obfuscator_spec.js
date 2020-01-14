@@ -55,8 +55,8 @@ describe('URL Obfuscator', () => {
           cy.request(metadataUrl)
             .its('body')
             .then(response => {
-              expect(response).to.have.all.keys('urlInfo', 'redirects')
-              expect(response.urlInfo).to.have.all.keys('original_url', 'obfuscated_url')
+              expect(response).to.have.all.keys('url_info', 'redirects')
+              expect(response.url_info).to.have.all.keys('original_url', 'obfuscated_url')
               expect(response.redirects).to.have.all.keys('count', 'last_visited_at')
             })
         })

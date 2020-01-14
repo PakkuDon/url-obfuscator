@@ -72,7 +72,7 @@ app.get('/:id/info', (request, response) => {
       redirectRepository.findByLinkId(resolvedLink.id)
         .then((redirectQueryResult) => {
           response.status(201).json({
-            urlInfo: {
+            url_info: {
               original_url: originalUrl,
               obfuscated_url: new URL(resolvedLink.hash, `${request.protocol}://${request.hostname}:${PORT}`)
             },
