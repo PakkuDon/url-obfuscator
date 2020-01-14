@@ -45,4 +45,34 @@ describe('URL Obfuscator', () => {
       })
     })
   })
+
+  describe('GET /api/:id/info', () => {
+    it('returns metadata about obfuscated URL', () => {
+      cy.request('POST', '/api/links', { url: 'https://example.com' })
+        .its('body')
+        .its('metadata_url')
+        .then(metadataUrl => {
+          cy.request(metadataUrl)
+            .its('body')
+            .then(response => {
+              expect(response).to.have.all.keys('urlInfo', 'redirects')
+              expect(response.urlInfo).to.have.all.keys('original_url', 'obfuscated_url')
+              expect(response.redirects).to.have.all.keys('count', 'last_visited_at')
+            })
+        })
+    })
+
+    it('tracks number of visits for obfuscated URL', () => {
+      cy.request('POST', '/api/links', { url: 'https://example.com' })
+        .its('body')
+        .then(response => {
+          cy.request(response.new_url)
+          cy.request(response.metadata_url)
+            .its('body')
+            .then(linkMetadata => {
+              expect(linkMetadata.redirects.count).to.eq(1)
+            })
+        })
+    })
+  })
 })
